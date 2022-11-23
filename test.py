@@ -1,8 +1,13 @@
+# FOR TESTING PURPOSE ONLY !
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
+from win32com.client import Dispatch
+import pyttsx3
+
 
 search_bar = "/html/body/ytd-app/div[1]/div/ytd-masthead/div[3]/div[2]/ytd-searchbox/form/div[1]/div[1]/input"
 
@@ -230,6 +235,29 @@ if __name__ == "__main__":
 
     # driver.execute_script("window.scrollBy(0, 500)")
 
-    speech = speech_text()
-    time.sleep(1)
+    # speech = speech_text()
+    # time.sleep(1)
 
+
+    def onStart(name):
+        print('starting', name)
+
+
+    def onWord(name, location, length):
+        print('word', name, location, length)
+
+
+    def onEnd(name, completed):
+        print('finishing', name, completed)
+
+
+    engine = pyttsx3.init()
+    words = ['tell', 'me', 'the', 'news']
+    engine.startLoop(False)
+    for i in words:
+        engine.say(i)
+        engine.iterate()
+    engine.endLoop()
+
+
+    engine.runAndWait()

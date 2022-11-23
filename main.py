@@ -1,8 +1,14 @@
+import threading
+import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import pyttsx3
 import time
+from interface import main
+import arabic_reshaper
+from bidi.algorithm import get_display
+
 
 # Text to Speech
 engine = pyttsx3.init("sapi5")
@@ -55,7 +61,6 @@ def skip_ads(web_driver: webdriver) -> None:
 
 # Function for speech detection in URDU
 def speech(speak: bool, message: str = "", print_dialogue: bool = True) -> str:
-
     # SpeechRecognition should be imported inside a function
     # to create multiple sessions
     import speech_recognition as sr
@@ -151,7 +156,7 @@ def search_video(web_driver: webdriver) -> None:
 
 
 # Main Function
-def main() -> None:
+def virtual_assistant() -> None:
     driver = None
 
     print("---- Virtual Assistant ----")
@@ -161,11 +166,15 @@ def main() -> None:
     URL = "https://www.youtube.com/"
     URL_QUERY = "https://www.youtube.com/results?search_query="
 
+
+    # t1.daemon = True
+
     while True:
 
         call_ai = speech(False, print_dialogue=False)
 
         if call_ai == "بات سنو":
+
             command = speech(True, "Listening")
 
             if command == "انٹرنیٹ کھولو" or command == "نیٹ کھولو":
@@ -193,7 +202,7 @@ def main() -> None:
                         engine.say("You didn't speak anything")
                         engine.runAndWait()
                     else:
-                        URL_QUERY += search_video
+                        URL_QUERY += search_query
 
                         driver.implicitly_wait(5)
                         driver.get(URL_QUERY)
@@ -258,8 +267,12 @@ def main() -> None:
                     driver.implicitly_wait(2)
 
             if command == "بند کرو":
+                exit(0)
                 break
 
 
-if __name__ == "__main__":
-    main()
+t1 = threading.Thread(target=main)
+
+t1.start()
+virtual_assistant()
+
