@@ -1,13 +1,10 @@
 import threading
-import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import pyttsx3
 import time
 from interface import main
-import arabic_reshaper
-from bidi.algorithm import get_display
 
 
 # Text to Speech
@@ -28,6 +25,26 @@ skip_ad = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div
 # XPATH to pause/play button
 pause_btn = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[" \
             "2]/div/div/ytd-player/div/div/div[28]/div[2]/div[1]/button "
+
+
+# SELECTOR PATH to next video button
+nxt_vid = "#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls" \
+          " > div.ytp-left-controls > a.ytp-next-button.ytp-button"
+
+
+# cinema mode selector
+cinema_screen = "#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls >" \
+                " div.ytp-right-controls > button.ytp-size-button.ytp-button"
+
+
+# full screen mode selector
+full_screen = "#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls >" \
+              " div.ytp-right-controls > button.ytp-fullscreen-button.ytp-button"
+
+
+# volume button selector
+volume_button = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]" \
+                "/div/div/ytd-player/div/div/div[32]/div[2]/div[1]/span/button"
 
 
 # Function for clicking on first video on page
@@ -155,6 +172,34 @@ def search_video(web_driver: webdriver) -> None:
     web_driver.get(SEARCH_URL)
 
 
+# Function for playing next video
+def next_video(web_driver: webdriver) -> None:
+    try:
+        nv = web_driver.find_element(By.CSS_SELECTOR, nxt_vid)
+        nv.click()
+        web_driver.implicitly_wait(2)
+    except NoSuchElementException:
+        print("Try again")
+
+
+def cinema_screen_mod(web_driver: webdriver) -> None:
+    cm = web_driver.find_element(By.CSS_SELECTOR, cinema_screen)
+    cm.click()
+    web_driver.implicitly_wait(2)
+
+
+def screen_mod(web_driver: webdriver) -> None:
+    cm = web_driver.find_element(By.CSS_SELECTOR, full_screen)
+    cm.click()
+    web_driver.implicitly_wait(2)
+
+
+def volume_mod(web_driver: webdriver) -> None:
+    vm = web_driver.find_element(By.XPATH, volume_button)
+    vm.click()
+    web_driver.implicitly_wait(2)
+
+
 # Main Function
 def virtual_assistant() -> None:
     driver = None
@@ -165,9 +210,6 @@ def virtual_assistant() -> None:
 
     URL = "https://www.youtube.com/"
     URL_QUERY = "https://www.youtube.com/results?search_query="
-
-
-    # t1.daemon = True
 
     while True:
 
@@ -266,6 +308,30 @@ def virtual_assistant() -> None:
                     set_quality(driver)
                     driver.implicitly_wait(2)
 
+            if command == "اگلی ویڈیو چلاؤ" or command == "اگلی ویڈیو":
+                next_video(driver)
+
+            if command == "پیچھے جاؤ":
+                driver.back()
+
+            if command == "آگے جاؤں":
+                driver.forward()
+
+            if command == "سینما":
+                cinema_screen_mod(driver)
+
+            if command == "فل سکرین" or command == "سکرین بڑی کرو" or command == "بڑی سکرین":
+                screen_mod(driver)
+
+            if command == "چھوٹی سکرین" or command == "چھوٹی اسکرین کرو" or command == "سکرین چھوٹی کرو":
+                screen_mod(driver)
+
+            if command == "آواز بند کرو":
+                volume_mod(driver)
+
+            if command == "آواز کھولو":
+                volume_mod(driver)
+
             if command == "بند کرو":
                 exit(0)
                 break
@@ -275,4 +341,3 @@ t1 = threading.Thread(target=main)
 
 t1.start()
 virtual_assistant()
-

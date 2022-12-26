@@ -24,45 +24,8 @@ p720 = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]
 p360 = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[27]/div/div[2]/div[4]"
 p_auto = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[27]/div/div[2]/div[7]"
 
+nxt_vid = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[29]/div[2]/div[1]/a[2]"
 
-
-#
-# def set_video_quality():
-#     set_quality = input("Enter video quality: ")
-#
-#     info_bar = driver.find_element(By.XPATH, play_bar)
-#     driver.implicitly_wait(10)
-#     info_bar.click()
-#
-#     settings = driver.find_element(By.XPATH, video_settings)
-#     driver.implicitly_wait(15)
-#     settings.click()
-#
-#     quality = driver.find_element(By.XPATH, quality_btn)
-#     driver.implicitly_wait(15)
-#     quality.click()
-#
-#     if set_quality == "high":
-#         options = driver.find_element(By.XPATH, p720)
-#         driver.implicitly_wait(10)
-#         options.click()
-#     elif set_quality == "low":
-#         options = driver.find_element(By.XPATH, p360)
-#         driver.implicitly_wait(10)
-#         options.click()
-#     else:
-#         options = driver.find_element(By.XPATH, p_auto)
-#         driver.implicitly_wait(10)
-#         options.click()
-#
-#     resume_play = driver.find_element(By.XPATH, play_bar)
-#     driver.implicitly_wait(10)
-#     resume_play.click()
-#
-#
-
-# def leave_comment():
-#     pass
 
 def speech_text():
     import speech_recognition as sr
@@ -86,12 +49,6 @@ def speech_text():
 
     return string
 
-# def text_speech(string):
-#     engine = pyttsx3.init("sapi5")
-#     engine.setProperty("rate", 170)
-#     engine.say(string)
-#     engine.runAndWait()
-
 
 pause_btn = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[28]/div[2]/div[1]/button"
 skip_ad = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[4]/div/div[3]/div/div[2]/span/button"
@@ -108,6 +65,7 @@ p360 = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]
 p_auto = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[27]/div/div[2]/div[7]"
 
 play_btn = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div"
+
 
 def pause(web_driver):
     try:
@@ -175,89 +133,20 @@ def search_video(web_driver, string: str):
 
 
 if __name__ == "__main__":
-    # URL = "https://www.youtube.com/"
+    # URL = "https://www.youtube.com/watch?v=ntO9nRr_sbw"
+    # URL2 = "https://www.youtube.com/"
     #
     # driver = webdriver.Chrome()
-    # driver.implicitly_wait(20)
-    #
     # driver.get(URL)
     # driver.implicitly_wait(15)
     #
-    # command = speech_text()
-    #
-    # search_video(driver, command)
-
     # skip_ads(driver)
     #
-    # video_settings = driver.find_element(By.CLASS_NAME, "ytp-settings-button")
-    # driver.implicitly_wait(5)
+    # time.sleep(3)
+    #
+    # video_settings = driver.find_element(By.CSS_SELECTOR, "#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls > div.ytp-right-controls > button.ytp-size-button.ytp-button")
     # video_settings.click()
-    #
     # driver.implicitly_wait(5)
-    #
-    # time.sleep(7)
-    #
-    # quality_btn = driver.find_elements(By.CLASS_NAME, "ytp-menuitem-label")
-    # driver.implicitly_wait(2)
-    #
-    # print("Options in settings: ", len(quality_btn))
-    #
-    # for i in range(len(quality_btn)):
-    #     print(quality_btn[i].text)
-    #     if quality_btn[i].text == "Quality":
-    #         quality_btn[i].click()
-    #
-    # time.sleep(7)
-    #
-    # pixel = driver.find_elements(By.CLASS_NAME, "ytp-menuitem-label")
-    # driver.implicitly_wait(2)
-    # print("Options in quality: ", len(pixel))
-    #
-    # for i in range(len(pixel)):
-    #     print(pixel[i].text)
-    #     if pixel[i].text == "360p":
-    #         print("360p is available")
-    #         pixel[i].click()
-    #         break
 
-    #
-    # try:
-
-    #
-    #     driver.implicitly_wait(5)
-    #
-    #     video_settings = driver.find_elements(By.CLASS_NAME, "ytp-settings-button")
-    #     driver.implicitly_wait(3)
-    #     video_settings[0].click()
-    #
-    # except NoSuchElementException as e:
-    #     print("No Element!")
-
-    # driver.execute_script("window.scrollBy(0, 500)")
-
-    # speech = speech_text()
-    # time.sleep(1)
-
-
-    def onStart(name):
-        print('starting', name)
-
-
-    def onWord(name, location, length):
-        print('word', name, location, length)
-
-
-    def onEnd(name, completed):
-        print('finishing', name, completed)
-
-
-    engine = pyttsx3.init()
-    words = ['tell', 'me', 'the', 'news']
-    engine.startLoop(False)
-    for i in words:
-        engine.say(i)
-        engine.iterate()
-    engine.endLoop()
-
-
-    engine.runAndWait()
+    cmd = speech_text()
+    print(cmd)
